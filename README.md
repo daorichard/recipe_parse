@@ -10,6 +10,11 @@
 2. Routes: define endpoints
 3. Services: Most of the real logic
 
-# Client-side notes
+# Client-side notes and to-do:
+
+- Right now, just make a basic landing and form and display the data
+- Creating the handle function and learned about encodeURIComponent so i can encode urls into a safe encoded version
+
+## CSS (oh god)
 
 -
