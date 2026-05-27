@@ -11,6 +11,11 @@ export default function RecipeForm() {
 
   const handleSubmit = async () => {
     try {
+      if (!value) {
+        alert('Please enter a valid link');
+        return;
+      }
+
       const response = await fetch(
         `http://localhost:4000/parse?url=${encodeURIComponent(value)}`,
       );
@@ -22,18 +27,18 @@ export default function RecipeForm() {
   };
 
   return (
-    <>
+    <form className='recipe-form'>
       <input
         className='recipe-input'
         type='text'
         value={value}
         onChange={handleChange}
-        placeholder='Enter URL'
+        placeholder='Paste a recipe URL'
       />
       <button className='recipe-button' onClick={handleSubmit}>
-        Send
+        Get Recipe
       </button>
       {recipe && <pre>{JSON.stringify(recipe, null, 2)}</pre>}
-    </>
+    </form>
   );
 }

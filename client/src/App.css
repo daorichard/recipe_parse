@@ -4,3 +4,34 @@
   padding: 2rem;
   border: 1px red;
 }
+
+input,
+button {
+  font: inherit;
+}
+
+/* Recipe Form */
+.recipe-form {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.recipe-input {
+  flex: 1;
+  min-width: 250px;
+  max-width: 500px;
+
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.recipe-button {
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #b5c1b8;
+  color: white;
+}
