@@ -8,17 +8,14 @@ const cheerio = require("cheerio");
 function cleanText(str) {
     if (!str) return str;
     return str
-        // Decode common HTML entities
         .replace(/&#39;/g, "'")
         .replace(/&apos;/g, "'")
         .replace(/&amp;/g, "&")
-        .replace(/&quot;/g, '"')
+        .replace(/&quot;/g, '')    // ← remove instead of replacing with "
         .replace(/&lt;/g, "<")
         .replace(/&gt;/g, ">")
         .replace(/&nbsp;/g, " ")
-        // Fix double parentheses e.g. "((1 cup))" → "(1 cup)"
         .replace(/\(\(([^)]*)\)\)/g, "($1)")
-        // Clean up extra whitespace
         .trim();
 }
 /**
