@@ -2,7 +2,25 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 
 // ─── Normalizers ─────────────────────────────────────────────────────────────
-
+/* html returns messy text so this function will help convert entities into real characters
+- for example: weird parens, and whitespace
+*/
+function cleanText(str) {
+    if (!str) return str;
+    return str
+        // Decode common HTML entities
+        .replace(/&#39;/g, "'")
+        .replace(/&apos;/g, "'")
+        .replace(/&amp;/g, "&")
+        .replace(/&quot;/g, '"')
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&nbsp;/g, " ")
+        // Fix double parentheses e.g. "((1 cup))" → "(1 cup)"
+        .replace(/\(\(([^)]*)\)\)/g, "($1)")
+        // Clean up extra whitespace
+        .trim();
+}
 /**
  * Convert ISO 8601 duration (PT1H30M) → human-readable "1 hr 30 min"
  */
@@ -23,12 +41,47 @@ function parseDuration(iso) {
 function flattenInstructions(raw) {
     if (!raw) return [];
     const items = Array.isArray(raw) ? raw : [raw];
-    return items.flatMap((item) => {
-        if (typeof item === "string") return [item.trim()];
-        if (item["@type"] === "HowToSection" && item.itemListElement)
-            return flattenInstructions(item.itemListElement);
-        return [item.text || item.name || ""].filter(Boolean);
-    });
+
+    // Check if any item is a HowToSection
+    const hasSections = items.some((item) => item["@type"] === "HowToSection");
+
+    if (hasSections) {
+        const result = [];
+        let ungroupedSteps = [];
+
+        for (const item of items) {
+            if (item["@type"] === "HowToSection") {
+                // If we have loose steps collected before this section, group them first
+                if (ungroupedSteps.length > 0) {
+                    result.push({ type: "section", name: "Directions", steps: ungroupedSteps });
+                    ungroupedSteps = [];
+                }
+                result.push({
+                    type: "section",
+                    name: cleanText(item.name) || null,
+                    steps: (item.itemListElement || [])
+                        .map((step) => cleanText(typeof step === "string" ? step.trim() : step.text || step.name || ""))
+                        .filter(Boolean),
+                });
+            } else {
+                // Loose HowToStep — collect it instead of wrapping it solo
+                const text = cleanText(typeof item === "string" ? item.trim() : item.text || item.name || "")
+                if (text) ungroupedSteps.push(text);
+            }
+        }
+
+        // Catch any remaining loose steps at the end
+        if (ungroupedSteps.length > 0) {
+            result.push({ type: "section", name: "Directions", steps: ungroupedSteps });
+        }
+
+        return result;
+    }
+
+    // No sections — return the original flat format so nothing else breaks
+    return items.map((item) =>
+        typeof item === "string" ? item.trim() : item.text || item.name || ""
+    ).filter(Boolean);
 }
 
 /**
@@ -37,8 +90,8 @@ function flattenInstructions(raw) {
 function flattenIngredients(raw) {
     if (!raw) return [];
     return (Array.isArray(raw) ? raw : [raw]).map((i) =>
-        typeof i === "string" ? i.trim() : i.name || ""
-    ).filter(Boolean);
+        cleanText(typeof i === "string" ? i.trim() : i.name || ""
+        )).filter(Boolean);
 }
 
 // ─── Strategy 1: JSON-LD (Schema.org) ────────────────────────────────────────
@@ -65,8 +118,8 @@ function extractFromJsonLd($) {
     if (!recipe) return null;
 
     return {
-        title: recipe.name || null,
-        description: recipe.description || null,
+        title: cleanText(recipe.name) || null,
+        description: cleanText(recipe.description) || null,
         image: Array.isArray(recipe.image)
             ? recipe.image[0]?.url || recipe.image[0]
             : recipe.image?.url || recipe.image || null,
@@ -74,7 +127,7 @@ function extractFromJsonLd($) {
         cookTime: parseDuration(recipe.cookTime),
         totalTime: parseDuration(recipe.totalTime),
         servings: recipe.recipeYield
-            ? String(Array.isArray(recipe.recipeYield) ? recipe.recipeYield[0] : recipe.recipeYield)
+            ? cleanText(String(Array.isArray(recipe.recipeYield) ? recipe.recipeYield[0] : recipe.recipeYield))
             : null,
         ingredients: flattenIngredients(recipe.recipeIngredient),
         instructions: flattenInstructions(recipe.recipeInstructions),
@@ -101,7 +154,7 @@ function extractFromHtml($, url) {
     $(
         ".wprm-recipe-ingredient, .tasty-recipes-ingredients li, .recipe-ingredients li, [class*='ingredient'] li"
     ).each((_, el) => {
-        const text = $(el).text().trim();
+        const text = cleanText($(el).text().trim());
         if (text) ingredients.push(text);
     });
 
@@ -109,7 +162,7 @@ function extractFromHtml($, url) {
     $(
         ".wprm-recipe-instruction-text, .tasty-recipes-instructions li, .recipe-instructions li, [class*='instruction'] li, [class*='step'] li"
     ).each((_, el) => {
-        const text = $(el).text().trim();
+        const text = cleanText($(el).text().trim());
         if (text) instructions.push(text);
     });
 

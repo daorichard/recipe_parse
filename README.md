@@ -18,3 +18,7 @@
 ## CSS (oh god)
 
 -
+
+# Side notes
+
+- Normalizers take inconsistent, messy scraped data and convert it into predictable, clean formats

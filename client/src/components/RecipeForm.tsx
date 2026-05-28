@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import RecipeCard from './RecipeCard';
 
 export default function RecipeForm() {
   const [value, setValue] = useState('');
@@ -9,9 +10,9 @@ export default function RecipeForm() {
     console.log(event.target.value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
     try {
-      if (!value) {
+      if (!value || value.indexOf('.com') == -1) {
         alert('Please enter a valid link');
         return;
       }
@@ -27,18 +28,20 @@ export default function RecipeForm() {
   };
 
   return (
-    <form className='recipe-form'>
-      <input
-        className='recipe-input'
-        type='text'
-        value={value}
-        onChange={handleChange}
-        placeholder='Paste a recipe URL'
-      />
-      <button className='recipe-button' onClick={handleSubmit}>
-        Get Recipe
-      </button>
-      {recipe && <pre>{JSON.stringify(recipe, null, 2)}</pre>}
-    </form>
+    <>
+      <div className='recipe-form'>
+        <input
+          className='recipe-input'
+          type='text'
+          value={value}
+          onChange={handleChange}
+          placeholder='Paste a recipe URL'
+        />
+        <button className='recipe-button' onClick={handleSubmit}>
+          Get Recipe
+        </button>
+        {recipe && <RecipeCard recipe={recipe}></RecipeCard>}
+      </div>
+    </>
   );
 }

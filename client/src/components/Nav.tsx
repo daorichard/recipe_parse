@@ -1,3 +1,8 @@
 export default function Nav() {
-  return <div>Nav</div>;
+  return (
+    <div className='Nav'>
+      <div className='Logo'></div>
+      <div className='sign-in'></div>
+    </div>
+  );
 }
