@@ -6,7 +6,6 @@ function App() {
     <>
       <div className='container'>
         <h1>Enter Recipe URL here</h1>
-        <p>Stop the yap and just put the recipe in the bag.</p>
         <RecipeForm></RecipeForm>
       </div>
     </>

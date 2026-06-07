@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import '../styles/recipe_card.css';
 
 type Recipe = {
   url: string;
@@ -8,7 +9,7 @@ type Recipe = {
   prepTime: string;
   totalTime: string;
   servings: string;
-  ingrediants: string[];
+  ingredients: string[];
   instructions: string[];
   cuisine: string[];
   category: string[];
@@ -19,65 +20,68 @@ type RecipeCardProps = {
   recipe: Recipe;
 };
 
-function RecipeCard({ recipe }: RecipeCardProps) {
-  const [expanded, setExpanded] = useState(false);
+function cleanDomain(url: string) {
+  const host = new URL(url).hostname;
 
+  return host.replace(/^www\./, ''); // remove www.
+}
+
+function RecipeCard({ recipe }: RecipeCardProps) {
   return (
     <div className='recipe-card'>
       {/* Image */}
-      {recipe.image && (
-        <img
-          className='recipe-card__image'
-          src={recipe.image}
-          alt={recipe.title}
-        />
-      )}
+      <div className='recipe-top'>
+        {recipe.image && (
+          <img
+            className='recipe-card__image'
+            src={recipe.image}
+            alt={recipe.title}
+          />
+        )}
+        <div className='recipe-header'>
+          <h1 className='recipe-card__title'>{recipe.title}</h1>
+          <p className='recipe-url'>
+            from <a href={recipe.url}>{cleanDomain(recipe.url)}</a>
+          </p>
+          <div className='recipe-card__meta'>
+            <span>⏱ {recipe.totalTime}</span>
+            <span>🍽 {recipe.servings} servings</span>
+            <span>🔥 {recipe.prepTime} </span>
+          </div>
+        </div>
+      </div>
 
       {/* Content */}
       <div className='recipe-card__content'>
-        <h2 className='recipe-card__title'>{recipe.title}</h2>
-
-        {/* Meta */}
-        <div className='recipe-card__meta'>
-          <span>⏱ {recipe.totalTime}</span>
-          <span>🍽 {recipe.servings}</span>
-          <span>🔥 {recipe.prepTime}</span>
+        <div className='recipe-ingredients'>
+          <h2>Ingredients</h2>
+          <ul>
+            {recipe.ingredients.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
         </div>
-
-        {/* Tags */}
-        <div className='recipe-card__tags'>
-          {recipe.tags?.slice(0, 3).map((tag) => (
-            <span key={tag} className='recipe-card__tag'>
-              {tag}
-            </span>
-          ))}
+        <div className='recipe-instructions'>
+          {Array.isArray(recipe.instructions) &&
+            (recipe.instructions[0]?.type === 'section' ? (
+              recipe.instructions.map((section, i) => (
+                <div key={i} className='instructions'>
+                  {section.name && <h2>{section.name}</h2>}
+                  <ol>
+                    {section.steps.map((step, j) => (
+                      <li key={j}>{step}</li> // steps restart at 1 per section automatically
+                    ))}
+                  </ol>
+                </div>
+              ))
+            ) : (
+              <ol>
+                {recipe.instructions.map((step, i) => (
+                  <li key={i}>{step}</li>
+                ))}
+              </ol>
+            ))}
         </div>
-
-        {/* Button */}
-        <button
-          className='recipe-card__button'
-          onClick={() => setExpanded(!expanded)}>
-          {expanded ? 'Hide Recipe' : 'View Recipe'}
-        </button>
-
-        {/* Expanded content (simple version) */}
-        {expanded && (
-          <div className='recipe-card__expanded'>
-            <h4>Ingredients</h4>
-            <ul>
-              {recipe.ingredients.map((item, i) => (
-                <li key={i}>{item}</li>
-              ))}
-            </ul>
-
-            <h4>Instructions</h4>
-            <ol>
-              {recipe.instructions.map((step, i) => (
-                <li key={i}>{step}</li>
-              ))}
-            </ol>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -1,0 +1,47 @@
+/* Recipe Card UI */
+.recipe-card {
+  display: flex;
+  padding: 2rem 2.25rem;
+  flex-direction: column;
+  gap: 25px;
+  border-radius: 16px;
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.recipe-top {
+  display: flex;
+  gap: 1.5rem;
+}
+.recipe-card__image {
+  border-radius: 8px;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.recipe-card__content {
+  display: flex;
+  gap: 4rem;
+}
+
+.recipe-ingredients {
+  flex: 1; /* take equal space */
+  min-width: 0;
+}
+
+.recipe-ingredients li {
+  border-bottom: 1px solid #ccc; /* Adds the line under each item */
+  padding: 10px 0; /* Adds breathing room above and below text */
+}
+
+.recipe-instructions {
+  flex: 2;
+}
+
+.instructions {
+  margin-bottom: 15px;
+}
+
+.instructions h2 {
+  margin-bottom: 10px;
+}
