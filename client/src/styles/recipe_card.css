@@ -19,11 +19,42 @@
   object-fit: cover;
 }
 
+.recipe-url {
+  margin-bottom: 15px;
+}
+
 .recipe-card__content {
   display: flex;
   gap: 4rem;
 }
+/* meta container with servings and etc. */
+.recipe-card__meta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
 
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+}
+
+.meta-icon {
+  font-size: 1.1rem;
+}
+
+.meta-item--save {
+  background-color: #fff3e0;
+  cursor: pointer;
+}
+
+/* ingrediants container */
 .recipe-ingredients {
   flex: 1; /* take equal space */
   min-width: 0;
@@ -44,4 +75,16 @@
 
 .instructions h2 {
   margin-bottom: 10px;
+}
+.instructions li {
+  margin-bottom: 10px;
+}
+.instructions ol {
+  margin-left: 20px;
+}
+
+.instructions ol li::marker {
+  color: #e65100;
+  font-weight: bold;
+  font-size: 1em;
 }

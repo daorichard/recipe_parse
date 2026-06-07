@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FiBookmark } from 'react-icons/fi';
 import '../styles/recipe_card.css';
 
 type Recipe = {
@@ -44,9 +45,20 @@ function RecipeCard({ recipe }: RecipeCardProps) {
             from <a href={recipe.url}>{cleanDomain(recipe.url)}</a>
           </p>
           <div className='recipe-card__meta'>
-            <span>⏱ {recipe.totalTime}</span>
-            <span>🍽 {recipe.servings} servings</span>
-            <span>🔥 {recipe.prepTime} </span>
+            <div className='meta-item meta-item--servings'>
+              <span className='meta-icon'>🍽</span>
+              <span>{recipe.servings} servings</span>
+            </div>
+
+            <div className='meta-item meta-item--time'>
+              <span className='meta-icon'>⏱</span>
+              <span>{recipe.totalTime}</span>
+            </div>
+
+            <div className='meta-item meta-item--save'>
+              <FiBookmark className='meta-icon' />
+              <span>Save</span>
+            </div>
           </div>
         </div>
       </div>
