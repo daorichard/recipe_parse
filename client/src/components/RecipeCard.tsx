@@ -8,6 +8,7 @@ type Recipe = {
   description: string;
   image?: string;
   prepTime: string;
+  cookTime: string;
   totalTime: string;
   servings: string;
   ingredients: string[];
@@ -51,10 +52,12 @@ function RecipeCard({ recipe, onSave }: RecipeCardProps) {
               <span>{recipe.servings} servings</span>
             </div>
 
-            <div className='meta-item meta-item--time'>
-              <span className='meta-icon'>⏱</span>
-              <span>{recipe.totalTime}</span>
-            </div>
+            {recipe.cookTime && (
+              <div className='meta-item meta-item--time'>
+                <span className='meta-icon'>⏱</span>
+                <span>{recipe.cookTime}</span>
+              </div>
+            )}
 
             <div className='meta-item meta-item--save' onClick={onSave}>
               <FiBookmark className='meta-icon' />
@@ -75,11 +78,14 @@ function RecipeCard({ recipe, onSave }: RecipeCardProps) {
           </ul>
         </div>
         <div className='recipe-instructions'>
+          <h2>Directions</h2>
           {Array.isArray(recipe.instructions) &&
             (recipe.instructions[0]?.type === 'section' ? (
               recipe.instructions.map((section, i) => (
                 <div key={i} className='instructions'>
-                  {section.name && <h2>{section.name}</h2>}
+                  {section.name && section.name !== 'Directions' && (
+                    <h2>{section.name}</h2>
+                  )}
                   <ol>
                     {section.steps.map((step, j) => (
                       <li key={j}>{step}</li> // steps restart at 1 per section automatically

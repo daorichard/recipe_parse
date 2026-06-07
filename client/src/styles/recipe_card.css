@@ -73,17 +73,17 @@
   margin-bottom: 15px;
 }
 
-.instructions h2 {
+.recipe-instructions h2 {
   margin-bottom: 10px;
 }
-.instructions li {
+.recipe-instructions li {
   margin-bottom: 15px;
 }
-.instructions ol {
+.recipe-instructions ol {
   margin-left: 20px;
 }
 
-.instructions ol li::marker {
+.recipe-instructions ol li::marker {
   color: #e65100;
   font-weight: bold;
   font-size: 1em;
