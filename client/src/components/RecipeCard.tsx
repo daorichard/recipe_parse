@@ -19,6 +19,7 @@ type Recipe = {
 
 type RecipeCardProps = {
   recipe: Recipe;
+  onSave: () => void;
 };
 
 function cleanDomain(url: string) {
@@ -27,7 +28,7 @@ function cleanDomain(url: string) {
   return host.replace(/^www\./, ''); // remove www.
 }
 
-function RecipeCard({ recipe }: RecipeCardProps) {
+function RecipeCard({ recipe, onSave }: RecipeCardProps) {
   return (
     <div className='recipe-card'>
       {/* Image */}
@@ -55,7 +56,7 @@ function RecipeCard({ recipe }: RecipeCardProps) {
               <span>{recipe.totalTime}</span>
             </div>
 
-            <div className='meta-item meta-item--save'>
+            <div className='meta-item meta-item--save' onClick={onSave}>
               <FiBookmark className='meta-icon' />
               <span>Save</span>
             </div>

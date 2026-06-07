@@ -40,7 +40,7 @@ button {
 
 /* 6. App container helper */
 .container {
-  max-width: 950px;
+  max-width: 1050px;
   margin: 0 auto;
   padding: 2rem;
 }
