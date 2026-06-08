@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import RecipeForm from '@/components/RecipeForm';
+import Home from './pages/Home';
+import Saved from './pages/Saved';
+
 function App() {
   return (
-    <>
-      <div className='container'>
-        <h1>Enter Recipe URL here</h1>
-        <RecipeForm></RecipeForm>
-      </div>
-    </>
+    <Routes>
+      <Route path='/' element={<Home />} />
+      <Route path='/saved' element={<Saved />} />
+    </Routes>
   );
 }
 

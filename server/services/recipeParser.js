@@ -28,7 +28,7 @@ function parseDuration(iso) {
     const [, h, m] = match;
     const parts = [];
     if (h) parts.push(`${h} hr`);
-    if (m) parts.push(`${m} min`);
+    if (m) parts.push(`${m} minutes`);
     return parts.join(" ") || null;
 }
 

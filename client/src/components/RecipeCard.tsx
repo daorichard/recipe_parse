@@ -30,6 +30,8 @@ function cleanDomain(url: string) {
 }
 
 function RecipeCard({ recipe, onSave }: RecipeCardProps) {
+  const displayTime = recipe.cookTime ?? recipe.prepTime;
+
   return (
     <div className='recipe-card'>
       {/* Image */}
@@ -52,10 +54,10 @@ function RecipeCard({ recipe, onSave }: RecipeCardProps) {
               <span>{recipe.servings} servings</span>
             </div>
 
-            {recipe.cookTime && (
+            {displayTime && (
               <div className='meta-item meta-item--time'>
                 <span className='meta-icon'>⏱</span>
-                <span>{recipe.cookTime}</span>
+                <span>{displayTime}</span>
               </div>
             )}
 
