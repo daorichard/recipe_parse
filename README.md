@@ -20,9 +20,13 @@
 Container components own state, fetch / store data, pass data + handlers down
 Presentational components have no state and just render props. Emits events via callbacks.
 
+\*child components are to only be used to render ONE item
+Parent component holds the state and data and can pass on anything the child needs.
+--> container vs presentational pattern
+
 ## CSS (oh god)
 
--
+- flex: stretches to fill whatever height is left after so all cards end at the same point
 
 # Side notes
 

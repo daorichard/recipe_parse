@@ -1,17 +1,12 @@
 import { FiBookmark } from 'react-icons/fi';
 import '../styles/recipe_card.css';
 import type { Recipe } from '../types/recipe';
+import { cleanDomain } from '../utils/cleanDomain';
 
 type RecipeCardProps = {
   recipe: Recipe;
   onSave: () => void;
 };
-
-function cleanDomain(url: string) {
-  const host = new URL(url).hostname;
-
-  return host.replace(/^www\./, ''); // remove www.
-}
 
 function RecipeCard({ recipe, onSave }: RecipeCardProps) {
   const displayTime = recipe.cookTime ?? recipe.prepTime;

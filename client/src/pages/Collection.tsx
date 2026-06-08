@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import SavedRecipeCard from '@/components/SavedRecipeCard';
+import MiniRecipeCard from '@/components/MiniRecipeCard';
 import RecipeCard from '@/components/RecipeCard';
+import Nav from '@/components/Nav';
 
 export default function Collection() {
   const [recipes, setRecipes] = useState([]);
@@ -11,15 +12,16 @@ export default function Collection() {
   }, []);
 
   return (
-    <div>
+    <div className='container collection'>
+      <Nav></Nav>
       <h1>Collection</h1>
-      <div>
+      <div className='recipe-grid'>
         {recipes.length === 0 ? (
           <p>No recipes yet.</p>
         ) : (
           // map over the array here and put it child components of savedRecipeCards
           recipes.map((recipe, i) => (
-            <RecipeCard key={i} recipe={recipe} onSave={() => {}} />
+            <MiniRecipeCard key={i} recipe={recipe} onDelete={() => {}} />
           ))
         )}
       </div>

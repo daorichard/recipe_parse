@@ -32,3 +32,15 @@ ul {
   background-color: #244f2c;
   color: white;
 }
+
+/* Collection Page */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 24px;
+}
+
+.collection h1 {
+  margin-left: 22px;
+}
