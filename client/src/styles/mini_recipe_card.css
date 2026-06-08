@@ -28,7 +28,7 @@
 }
 
 .mini-card__title {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
   margin: 0;
   /* Prevent long titles from breaking the layout */

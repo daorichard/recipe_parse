@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import RecipeCard from './RecipeCard';
 
 export default function RecipeForm() {
@@ -8,7 +9,7 @@ export default function RecipeForm() {
   const handleSave = () => {
     const existing = JSON.parse(localStorage.getItem('recipes') || '[]');
 
-    // if it is already saved then return..
+    // if it is already saved then return
     const alreadySaved = existing.some((r) => r.url === recipe.url);
     if (alreadySaved) return;
 

@@ -23,6 +23,10 @@
   margin-bottom: 15px;
 }
 
+.recipe-url a {
+  text-decoration: underline dotted;
+}
+
 .recipe-card__content {
   display: flex;
   gap: 4rem;

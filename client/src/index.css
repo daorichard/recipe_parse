@@ -48,5 +48,5 @@ button {
 /* 7. Nice default link style */
 a {
   color: inherit;
-  text-decoration: underline dotted;
+  text-decoration: none;
 }
