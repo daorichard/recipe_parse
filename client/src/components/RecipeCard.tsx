@@ -1,22 +1,6 @@
-import { useState } from 'react';
 import { FiBookmark } from 'react-icons/fi';
 import '../styles/recipe_card.css';
-
-type Recipe = {
-  url: string;
-  title: string;
-  description: string;
-  image?: string;
-  prepTime: string;
-  cookTime: string;
-  totalTime: string;
-  servings: string;
-  ingredients: string[];
-  instructions: string[];
-  cuisine: string[];
-  category: string[];
-  tags: string[];
-};
+import type { Recipe } from '../types/recipe';
 
 type RecipeCardProps = {
   recipe: Recipe;

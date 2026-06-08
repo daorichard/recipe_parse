@@ -21,8 +21,9 @@ export default function RecipeForm() {
     console.log(event.target.value);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (e) => {
     try {
+      e.preventDefault();
       if (!value || value.indexOf('.com') == -1) {
         alert('Please enter a valid link');
         return;
@@ -40,7 +41,7 @@ export default function RecipeForm() {
 
   return (
     <>
-      <div className='recipe-form'>
+      <form className='recipe-form'>
         <input
           className='recipe-input'
           type='text'
@@ -54,7 +55,7 @@ export default function RecipeForm() {
         {recipe && (
           <RecipeCard recipe={recipe} onSave={handleSave}></RecipeCard>
         )}
-      </div>
+      </form>
     </>
   );
 }
