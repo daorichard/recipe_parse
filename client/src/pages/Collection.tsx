@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import MiniRecipeCard from '@/components/MiniRecipeCard';
-import RecipeCard from '@/components/RecipeCard';
 import Nav from '@/components/Nav';
 
 export default function Collection() {

@@ -1,7 +1,5 @@
-import RecipeCard from './RecipeCard';
 import type { Recipe } from '../types/recipe';
 import '../styles/mini_recipe_card.css';
-import { cleanDomain } from '../utils/cleanDomain';
 import { Link } from 'react-router-dom';
 
 type MiniRecipeProps = {
