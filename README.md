@@ -1,64 +1,140 @@
 # Recipe App Parser
 
-- My attempt to create my own online recipe parser to save online recipes and create my own collection for ease of access and use.
+A personal project to build a recipe parser that saves online recipes into a structured, searchable collection for easy access and reuse.
 
-# Notes and refresher tips:
+---
 
-- Separation of concerns for backend:
+# Backend Architecture Notes
 
-1. Controllers: middleware logic
-2. Routes: define endpoints
-3. Services: Most of the real logic
+## Separation of Concerns
 
-# Client-side notes and to-do:
+- **Routes**: Define API endpoints
+- **Controllers**: Handle request/response logic (middleware layer)
+- **Services**: Core business logic
 
-- Right now, just make a basic landing and form and display the data
-- Creating the handle function and learned about encodeURIComponent so i can encode urls into a safe encoded version
-- keeping display components decoupled from components that handle data
-- presentation components vs. container components
+---
 
-Container components own state, fetch / store data, pass data + handlers down
-Presentational components have no state and just render props. Emits events via callbacks.
+# Client-Side Notes
 
-\*child components are to only be used to render ONE item
-Parent component holds the state and data and can pass on anything the child needs.
---> container vs presentational pattern
+## MVP Scope
 
-## react notes
+- Basic landing page
+- Recipe input form
+- Display parsed recipe data
 
-- children: special prop means whatever is nested inside this component
+---
 
-## CSS (oh god)
+## URL Handling
 
-- flex: stretches to fill whatever height is left after so all cards end at the same point
+- Learned `encodeURIComponent`
+- Used to safely encode recipe URLs before sending them to the backend
 
-# Side notes
+---
 
-- Normalizers take inconsistent, messy scraped data and convert it into predictable, clean formats
+## Component Design Pattern
 
-# To-DO
+### Container vs Presentational Components
 
-- Finish basic front end (done)
+**Container Components**
 
-# Data persistance (CORE)
+- Manage state
+- Fetch/store data
+- Pass data and handlers to children
 
-useEffect → goes and gets the session
-useState → stores it
-Context → broadcasts it to the rest of the app
+**Presentational Components**
 
-## important questions:
+- Pure UI
+- No state
+- Receive props and render UI
+- Emit actions via callbacks
 
-1. What happens when user clicks “save”?
+**Guiding Principle**
 
-- Take recipe from state
-- Push it into savedRecipes
-- Persist it (localStorage now, Supabase later)
+- Child components should generally render a single item or UI unit
+- Parent components own state and data flow
 
-2. What changes are user-owned vs backend-owned?
+---
 
-Currently, my backend generates the recipe object --> frontend receives it --> ui renders it
+# React Notes
 
-# Supabase auth for frontend
+- `children` is a special prop that represents nested JSX inside a component
 
-- Frontend + supabase will handle user sessions
-- Session consists of user's auth data that supabase return. (user's id, email, password)
+---
+
+# CSS Notes
+
+- `flex` helps align items and distribute space
+- Useful for keeping card layouts consistent in height and alignment
+
+---
+
+# Data Normalization
+
+- Normalizers convert messy scraped recipe data into a consistent, structured format
+- Helps ensure predictable backend responses
+
+---
+
+# Data Persistence Flow (Core)
+
+## State Flow
+
+- `useEffect`: Fetch session on load
+- `useState`: Store local state
+- `Context`: Share state across the application
+
+## Context Behavior
+
+- Components using `useSession()` subscribe to context updates
+- Similar to a global state subscription model
+
+---
+
+# Key System Questions
+
+## 1. What happens when a user clicks "Save"?
+
+- Retrieve recipe from state
+- Add to `savedRecipes`
+- Persist data:
+  - localStorage (current)
+  - Supabase (future)
+
+---
+
+## 2. What is owned by the user vs backend?
+
+**Backend**
+
+- Generates recipe object
+
+**Frontend**
+
+- Receives recipe data
+- Handles UI rendering and user interaction
+
+---
+
+# Supabase Authentication (Frontend)
+
+- Supabase handles authentication and session management
+
+## Session Contains
+
+- User ID
+- Email
+- Authentication metadata
+
+## Frontend Responsibilities
+
+- Store session state
+- Provide session via context
+- React to authentication changes
+
+---
+
+# TODO
+
+- Complete MVP frontend
+- Improve UI structure and component separation
+- Add persistent storage (Supabase integration)
