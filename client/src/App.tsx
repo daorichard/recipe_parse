@@ -15,7 +15,7 @@ type ProtectedRouteProps = {
 
 // ProtectedRoute — redirects to /auth if no session
 function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const session = useSession();
+  const { session } = useSession();
   if (!session) return <Navigate to='/auth' />;
   return <>{children}</>;
 }

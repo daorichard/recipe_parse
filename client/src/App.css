@@ -44,3 +44,18 @@ ul {
 .collection h1 {
   margin-left: 24px;
 }
+
+/* Nav */
+.sign-button {
+  padding: 0.2rem 0.45rem;
+  border: none;
+  border-radius: 8px;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.sign-button:hover {
+  background-color: #e5e5e5;
+  transform: translateY(-1px);
+}

@@ -40,7 +40,7 @@ export default function Auth() {
   };
 
   return (
-    <div>
+    <div className='container'>
       <h1>{isSignUp ? 'Create Account' : 'Sign in'}</h1>
       <input
         type='email'
