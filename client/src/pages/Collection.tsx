@@ -1,14 +1,20 @@
 import { useState, useEffect } from 'react';
 import MiniRecipeCard from '@/components/MiniRecipeCard';
 import Nav from '@/components/Nav';
+import { useSession } from '@/context/sessionContext';
+import { fetchRecipes } from '@/lib/recipes';
+import type { Recipe } from '@/types/recipe';
 
 export default function Collection() {
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const { session } = useSession();
 
   useEffect(() => {
-    const recipes = JSON.parse(localStorage.getItem('recipes') || '[]');
-    setRecipes(recipes);
-  }, []);
+    if (!session) return;
+    fetchRecipes(session.user.id)
+      .then(setRecipes)
+      .catch((error) => console.log(error));
+  }, [session]);
 
   return (
     <div className='container collection'>
