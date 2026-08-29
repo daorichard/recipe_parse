@@ -16,6 +16,7 @@ function cleanText(str) {
         .replace(/&gt;/g, ">")
         .replace(/&nbsp;/g, " ")
         .replace(/\(\(([^)]*)\)\)/g, "($1)")
+        .replace(/<[^>]*>/g, "")
         .trim();
 }
 /**
@@ -31,6 +32,7 @@ function parseDuration(iso) {
     if (m) parts.push(`${m} minutes`);
     return parts.join(" ") || null;
 }
+
 
 /**
  * Flatten Schema.org HowToStep arrays (can be nested objects or plain strings)
@@ -147,6 +149,15 @@ function extractFromHtml($, url) {
             .text()
             .trim() || null;
 
+    const image =
+        $('meta[property="og:image"]').attr("content") ||
+        $(
+            ".wprm-recipe-image img, .tasty-recipes-image img, [class*='recipe'] img, article img"
+        )
+            .first()
+            .attr("src") ||
+        null;
+
     const ingredients = [];
     $(
         ".wprm-recipe-ingredient, .tasty-recipes-ingredients li, .recipe-ingredients li, [class*='ingredient'] li"
@@ -174,7 +185,7 @@ function extractFromHtml($, url) {
     return {
         title,
         description: null,
-        image: null,
+        image: image,
         prepTime: null,
         cookTime: null,
         totalTime: null,

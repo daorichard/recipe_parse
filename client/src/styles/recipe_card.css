@@ -67,6 +67,7 @@
 .recipe-ingredients li {
   border-bottom: 1px solid #ccc; /* Adds the line under each item */
   padding: 10px 0; /* Adds breathing room above and below text */
+  overflow-wrap: break-word;
 }
 
 .recipe-instructions {

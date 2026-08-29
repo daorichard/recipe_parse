@@ -137,4 +137,4 @@ A personal project to build a recipe parser that saves online recipes into a str
 
 - Complete MVP frontend
 - Improve UI structure and component separation
-- Add persistent storage (Supabase integration)
+- Add persistent storage (Supabase integration) !
