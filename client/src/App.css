@@ -43,6 +43,26 @@ ul {
 
 .collection h1 {
   margin-left: 24px;
+  margin-bottom: 10px;
+}
+
+.collection-search {
+  display: block;
+  width: calc(100% - 48px);
+  margin: 0 24px 3px;
+  padding: 12px 14px;
+  font-size: 16px; /* prevents iOS auto-zoom on focus */
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #fff;
+}
+
+.collection-search:focus {
+  outline: none;
+  border-color: #999;
 }
 
 /* Nav */

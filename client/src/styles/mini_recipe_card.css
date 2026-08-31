@@ -42,6 +42,52 @@
   background: rgba(200, 0, 0, 0.85);
 }
 
+/* Touch devices have no hover, so keep the button visible instead of hidden and unreachable. */
+@media (hover: none) {
+  .mini-card__delete {
+    opacity: 1;
+  }
+}
+
+.mini-card__confirm {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+}
+
+.mini-card__confirm p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.mini-card__confirm-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.mini-card__confirm-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.mini-card__confirm-delete {
+  background: #c80000;
+  color: #fff;
+}
+
 .mini-card img {
   width: 100%;
   aspect-ratio: 4 / 3;
