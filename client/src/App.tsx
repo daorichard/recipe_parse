@@ -58,7 +58,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path='/recipe' element={<Recipe />} />
+        <Route
+          path='/recipe'
+          element={
+            <ProtectedRoute>
+              <Recipe />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </SessionContext.Provider>
   );

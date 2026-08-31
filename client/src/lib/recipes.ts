@@ -58,6 +58,11 @@ function fromRow(row: RecipeRow): Recipe {
   };
 }
 
+// In-memory cache of the last user's fetched recipes, so navigating from a
+// list (Collection) to a single recipe doesn't re-fetch data we already have.
+// Cleared automatically on a full page reload since this is module state.
+let cache: { userId: string; recipes: Recipe[] } | null = null;
+
 // Save a parsed recipe for a user. Returns false (no-op) if that user already saved this url.
 export async function saveRecipe(
   recipe: Recipe,
@@ -78,6 +83,7 @@ export async function saveRecipe(
     .insert(toRow(recipe, userId));
 
   if (insertError) throw insertError;
+  cache = null; // stale until the next fetchRecipes
   return true;
 }
 
@@ -90,5 +96,29 @@ export async function fetchRecipes(userId: string): Promise<Recipe[]> {
     .order('created_at', { ascending: false });
 
   if (error) throw error;
-  return (data ?? []).map(fromRow);
+  const recipes = (data ?? []).map(fromRow);
+  cache = { userId, recipes };
+  return recipes;
+}
+
+// Fetch a single saved recipe by its source url. Returns null if not saved.
+// Served from the cache when possible (e.g. clicking into a recipe from
+// Collection, which already fetched it) to avoid a redundant round trip.
+export async function fetchRecipeByUrl(
+  url: string,
+  userId: string,
+): Promise<Recipe | null> {
+  if (cache && cache.userId === userId) {
+    return cache.recipes.find((r) => r.url === url) ?? null;
+  }
+
+  const { data, error } = await supabase
+    .from('recipes')
+    .select('*')
+    .eq('user_id', userId)
+    .eq('url', url)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data ? fromRow(data) : null;
 }
