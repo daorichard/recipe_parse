@@ -101,6 +101,20 @@ export async function fetchRecipes(userId: string): Promise<Recipe[]> {
   return recipes;
 }
 
+// Delete a saved recipe by its source url.
+export async function deleteRecipe(url: string, userId: string): Promise<void> {
+  const { error } = await supabase
+    .from('recipes')
+    .delete()
+    .eq('user_id', userId)
+    .eq('url', url);
+
+  if (error) throw error;
+  if (cache && cache.userId === userId) {
+    cache = { userId, recipes: cache.recipes.filter((r) => r.url !== url) };
+  }
+}
+
 // Fetch a single saved recipe by its source url. Returns null if not saved.
 // Served from the cache when possible (e.g. clicking into a recipe from
 // Collection, which already fetched it) to avoid a redundant round trip.

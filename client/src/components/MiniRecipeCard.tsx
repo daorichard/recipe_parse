@@ -10,9 +10,25 @@ type MiniRecipeProps = {
 function MiniRecipeCard({ recipe, onDelete }: MiniRecipeProps) {
   const displayTime = recipe.cookTime ?? recipe.prepTime ?? recipe.totalTime;
 
+  const handleDeleteClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (window.confirm(`Remove "${recipe.title}" from your collection?`)) {
+      onDelete();
+    }
+  };
+
   return (
     <Link to={`/recipe?url=${recipe.url}`}>
       <div className='mini-card'>
+        <button
+          type='button'
+          className='mini-card__delete'
+          aria-label='Delete recipe'
+          onClick={handleDeleteClick}
+        >
+          &times;
+        </button>
         <img src={recipe.image} alt={recipe.title}></img>
         <div className='mini-card__body'>
           <h3 className='mini-card__title'>{recipe.title}</h3>
