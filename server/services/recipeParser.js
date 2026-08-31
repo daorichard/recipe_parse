@@ -15,6 +15,9 @@ function cleanText(str) {
         .replace(/&lt;/g, "<")
         .replace(/&gt;/g, ">")
         .replace(/&nbsp;/g, " ")
+        // Numeric character references, e.g. &#32; (decimal) and &#x20; (hex)
+        .replace(/&#x([0-9a-fA-F]+);?/g, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+        .replace(/&#(\d+);?/g, (_, dec) => String.fromCodePoint(parseInt(dec, 10)))
         .replace(/\(\(([^)]*)\)\)/g, "($1)")
         .replace(/<[^>]*>/g, "")
         .trim();

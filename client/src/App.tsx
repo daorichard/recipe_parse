@@ -15,7 +15,8 @@ type ProtectedRouteProps = {
 
 // ProtectedRoute — redirects to /auth if no session
 function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { session } = useSession();
+  const { session, loading } = useSession();
+  if (loading) return null; // wait for the session check to finish before deciding
   if (!session) return <Navigate to='/auth' />;
   return <>{children}</>;
 }
@@ -57,7 +58,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path='/recipe' element={<Recipe />} />
+        <Route
+          path='/recipe'
+          element={
+            <ProtectedRoute>
+              <Recipe />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </SessionContext.Provider>
   );

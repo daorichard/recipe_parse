@@ -2,26 +2,29 @@ import { useState } from 'react';
 import RecipeCard from './RecipeCard';
 import { useNavigate } from 'react-router-dom';
 import { useSession } from '@/context/sessionContext';
+import { saveRecipe } from '@/lib/recipes';
+import type { Recipe } from '@/types/recipe';
+
 export default function RecipeForm() {
   const [value, setValue] = useState('');
-  const [recipe, setRecipe] = useState(null);
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
   const navigate = useNavigate();
   const { session } = useSession();
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!session) {
       navigate('/auth'); // not logged in → go to auth
       return;
     }
-    const existing = JSON.parse(localStorage.getItem('recipes') || '[]');
+    if (!recipe) return;
 
-    // if it is already saved then return
-    const alreadySaved = existing.some((r) => r.url === recipe.url);
-    if (alreadySaved) return;
-
-    // save to local storage -- need to fix later
-    localStorage.setItem('recipes', JSON.stringify([...existing, recipe]));
-    alert('Recipe saved!');
+    try {
+      const saved = await saveRecipe(recipe, session.user.id);
+      alert(saved ? 'Recipe saved!' : 'Recipe already saved.');
+    } catch (error) {
+      console.log(error);
+      alert('Could not save recipe. Please try again.');
+    }
   };
 
   const handleChange = (event) => {
