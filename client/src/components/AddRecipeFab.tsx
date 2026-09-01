@@ -48,7 +48,7 @@ export default function AddRecipeFab({ onAdded }: AddRecipeFabProps) {
     setSaving(true);
     try {
       const response = await fetch(
-        `http://localhost:4000/parse?url=${encodeURIComponent(value)}`,
+        `${import.meta.env.VITE_API_URL}/parse?url=${encodeURIComponent(value)}`,
       );
       const data = await response.json();
 
