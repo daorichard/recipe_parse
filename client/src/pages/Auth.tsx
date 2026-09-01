@@ -1,6 +1,6 @@
 import { supabase } from '@/supabaseClient';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSession } from '@/context/sessionContext';
 import '../styles/auth.css';
 
@@ -65,6 +65,9 @@ export default function Auth() {
 
   return (
     <div className='auth-page'>
+      <Link to='/' className='auth-back'>
+        ← Back to home
+      </Link>
       <div className='auth-card'>
         {/* Hero image */}
         <div className='auth-hero'>

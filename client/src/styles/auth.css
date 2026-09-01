@@ -1,9 +1,24 @@
 .auth-page {
+  position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #f5f0eb;
+}
+
+.auth-back {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  color: #3a3128;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.auth-back:hover {
+  text-decoration: underline;
 }
 
 .auth-card {
