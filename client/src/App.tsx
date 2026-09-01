@@ -7,7 +7,7 @@ import Auth from './pages/Auth';
 import './App.css';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
-import { SessionContext, useSession } from './context/sessionContext';
+import { SessionContext, useSession } from './context/SessionContext';
 import { ToastProvider } from './context/toastContext';
 
 type ProtectedRouteProps = {

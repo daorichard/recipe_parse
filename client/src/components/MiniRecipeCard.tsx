@@ -10,7 +10,6 @@ type MiniRecipeProps = {
 };
 
 function MiniRecipeCard({ recipe, onDelete }: MiniRecipeProps) {
-  const displayTime = recipe.cookTime ?? recipe.prepTime ?? recipe.totalTime;
   const [confirming, setConfirming] = useState(false);
 
   const handleDeleteClick = (event: React.MouseEvent) => {

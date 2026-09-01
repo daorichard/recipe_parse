@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import '../styles/nav.css';
 import { supabase } from '@/supabaseClient';
-import { useSession } from '@/context/sessionContext';
+import { useSession } from '@/context/SessionContext';
 import { useNavigate } from 'react-router-dom';
 export default function Nav() {
   const { session } = useSession();

@@ -1,3 +1,9 @@
+export type InstructionSection = {
+  type: 'section';
+  name?: string;
+  steps: string[];
+};
+
 export type Recipe = {
   url: string;
   title: string;
@@ -8,7 +14,7 @@ export type Recipe = {
   totalTime: string;
   servings: string;
   ingredients: string[];
-  instructions: string[];
+  instructions: string[] | InstructionSection[];
   cuisine: string[];
   category: string[];
   tags: string[];

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import RecipeCard from './RecipeCard';
 import { useNavigate } from 'react-router-dom';
-import { useSession } from '@/context/sessionContext';
+import { useSession } from '@/context/SessionContext';
 import { useToast } from '@/context/toastContext';
 import { saveRecipe } from '@/lib/recipes';
 import type { Recipe } from '@/types/recipe';
@@ -32,12 +32,12 @@ export default function RecipeForm() {
     }
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
     console.log(event.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
       e.preventDefault();
       if (!value || value.indexOf('.com') == -1) {

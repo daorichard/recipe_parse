@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import MiniRecipeCard from '@/components/MiniRecipeCard';
 import Nav from '@/components/Nav';
 import AddRecipeFab from '@/components/AddRecipeFab';
-import { useSession } from '@/context/sessionContext';
+import { useSession } from '@/context/SessionContext';
 import { fetchRecipes, deleteRecipe } from '@/lib/recipes';
 import type { Recipe } from '@/types/recipe';
 

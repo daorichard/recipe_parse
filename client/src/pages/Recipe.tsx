@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import RecipeCard from '@/components/RecipeCard';
 import { useSearchParams } from 'react-router-dom';
 import Nav from '@/components/Nav';
-import { useSession } from '@/context/sessionContext';
+import { useSession } from '@/context/SessionContext';
 import { fetchRecipeByUrl } from '@/lib/recipes';
 import type { Recipe } from '@/types/recipe';
 

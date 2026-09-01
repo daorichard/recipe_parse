@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSession } from '@/context/sessionContext';
+import { useSession } from '@/context/SessionContext';
 import { useToast } from '@/context/toastContext';
 import { saveRecipe } from '@/lib/recipes';
 import type { Recipe } from '@/types/recipe';
