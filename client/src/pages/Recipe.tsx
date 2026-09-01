@@ -14,6 +14,7 @@ export default function RecipePage() {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(() => !!url);
 
+  // on component mount if there is a url, fetch it and set the recipe.
   useEffect(() => {
     if (!url) return;
     fetchRecipeByUrl(url, session!.user.id)
