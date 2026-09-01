@@ -1,0 +1,75 @@
+.toast-stack {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 100;
+  /* Toasts themselves catch clicks; the stack shouldn't block the page. */
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.7rem 1.1rem;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  animation:
+    toast-in 0.2s ease,
+    toast-out 0.2s ease 2.6s;
+}
+
+.toast--success {
+  background-color: #244f2c;
+}
+
+.toast--error {
+  background-color: #b3261e;
+}
+
+.toast__icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .toast-stack {
+    top: max(16px, env(safe-area-inset-top));
+    width: 100%;
+    padding: 0 16px;
+  }
+
+  .toast {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+}

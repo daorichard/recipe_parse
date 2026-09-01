@@ -7,11 +7,40 @@ ul {
   list-style-type: none;
 }
 
+/* Home hero */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 2rem 1rem 2rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  line-height: 1.15;
+}
+
+.hero-subtitle {
+  max-width: 480px;
+  color: #555;
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Recipe results shouldn't inherit the hero's centered text alignment */
+.hero .recipe-card {
+  text-align: left;
+  width: 100%;
+}
+
 /* Recipe Form */
 .recipe-form {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+  justify-content: center;
   margin-top: 10px;
 }
 
@@ -29,8 +58,25 @@ ul {
   padding: 0.75rem 1rem;
   border: none;
   border-radius: 8px;
-  background-color: #244f2c;
+  background-color: #f5a725;
   color: white;
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 2rem 0.5rem 1.5rem;
+  }
+
+  .recipe-form {
+    flex-direction: column;
+  }
+
+  .recipe-input,
+  .recipe-button {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
 }
 
 /* Collection Page */
@@ -41,8 +87,39 @@ ul {
   padding: 24px;
 }
 
+@media (max-width: 480px) {
+  /* Swap the tile grid for a compact single-column list — see mini-card's
+     matching @media block in mini_recipe_card.css. */
+  .recipe-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 16px 12px;
+  }
+}
+
 .collection h1 {
   margin-left: 24px;
+  margin-bottom: 10px;
+}
+
+.collection-search {
+  display: block;
+  width: calc(100% - 48px);
+  margin: 0 24px 3px;
+  padding: 12px 14px;
+  font-size: 16px; /* prevents iOS auto-zoom on focus */
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #fff;
+}
+
+.collection-search:focus {
+  outline: none;
+  border-color: #999;
 }
 
 /* Nav */

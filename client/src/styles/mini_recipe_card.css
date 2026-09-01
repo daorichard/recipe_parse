@@ -30,7 +30,9 @@
   line-height: 1;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.15s ease, background 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    background 0.15s ease;
   z-index: 1;
 }
 
@@ -40,6 +42,52 @@
 
 .mini-card__delete:hover {
   background: rgba(200, 0, 0, 0.85);
+}
+
+/* Touch devices have no hover, so keep the button visible instead of hidden and unreachable. */
+@media (hover: none) {
+  .mini-card__delete {
+    opacity: 1;
+  }
+}
+
+.mini-card__confirm {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+}
+
+.mini-card__confirm p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.mini-card__confirm-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.mini-card__confirm-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.mini-card__confirm-delete {
+  background: #c80000;
+  color: #fff;
 }
 
 .mini-card img {
@@ -73,4 +121,55 @@
   justify-content: space-between;
   font-size: 0.8rem;
   color: #888;
+}
+
+/* Mobile: switch to a compact row layout — square thumbnail + title/domain,
+   like a native app's recipe list, instead of a vertical image tile. */
+@media (max-width: 480px) {
+  .mini-card {
+    flex-direction: row;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: none;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .mini-card:hover {
+    transform: none;
+  }
+
+  .mini-card img {
+    width: 72px;
+    height: 72px;
+    aspect-ratio: unset;
+    flex-shrink: 0;
+    border-radius: 8px;
+  }
+
+  .mini-card__body {
+    background-color: transparent;
+    padding: 8px 12px;
+    gap: 4px;
+  }
+
+  .mini-card__title {
+    font-size: 1rem;
+  }
+
+  .mini-card__delete {
+    position: static;
+    order: 1;
+    opacity: 1;
+    background: transparent;
+    color: #bbb;
+    font-size: 1.4rem;
+    margin-left: auto;
+    margin-right: 8px;
+  }
+
+  .mini-card__delete:hover {
+    background: transparent;
+    color: #c80000;
+  }
 }

@@ -6,8 +6,14 @@ export default function Home() {
   return (
     <div className='container'>
       <Nav></Nav>
-      <h1>Enter Recipe URL here</h1>
-      <RecipeForm></RecipeForm>
+      <section className='hero'>
+        <h1>Save any recipe, instantly</h1>
+        <p className='hero-subtitle'>
+          Paste a link from your favorite recipe site and get a clean,
+          easy-to-follow recipe in seconds.{' '}
+        </p>
+        <RecipeForm></RecipeForm>
+      </section>
     </div>
   );
 }

@@ -1,9 +1,24 @@
 .auth-page {
+  position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #f5f0eb;
+}
+
+.auth-back {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  color: #3a3128;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.auth-back:hover {
+  text-decoration: underline;
 }
 
 .auth-card {
@@ -126,6 +141,49 @@
 .auth-submit:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* Divider */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  color: #aaa;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+
+/* Google */
+.auth-google {
+  width: 100%;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  background: #fff;
+  color: #111;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background 0.15s;
+}
+
+.auth-google:hover {
+  background: #f7f7f7;
 }
 
 /* Toggle */

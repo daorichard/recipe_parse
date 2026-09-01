@@ -45,6 +45,12 @@ button {
   padding: 2rem;
 }
 
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+  }
+}
+
 /* 7. Nice default link style */
 a {
   color: inherit;
