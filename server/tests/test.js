@@ -26,9 +26,9 @@ async function runTests() {
             console.log(`   Ingredients: ${recipe.ingredients.length} items`);
             recipe.ingredients.forEach((i) => console.log(`     - ${i}`));
             console.log(`   Steps:       ${recipe.instructions.length} steps`);
-            recipe.instructions.forEach((s, i) =>
-                console.log(`     ${i + 1}. ${s.slice(0, 80)}${s.length > 80 ? "…" : ""}`)
-            );
+            // recipe.instructions.forEach((s, i) =>
+            //     console.log(`     ${i + 1}. ${s.slice(0, 80)}${s.length > 80 ? "…" : ""}`)
+            // );
 
             // Also save the full JSON result to a file
             const filename = `output_${Date.now()}.json`;
