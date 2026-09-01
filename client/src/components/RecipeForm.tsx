@@ -2,6 +2,7 @@ import { useState } from 'react';
 import RecipeCard from './RecipeCard';
 import { useNavigate } from 'react-router-dom';
 import { useSession } from '@/context/sessionContext';
+import { useToast } from '@/context/toastContext';
 import { saveRecipe } from '@/lib/recipes';
 import type { Recipe } from '@/types/recipe';
 
@@ -10,6 +11,7 @@ export default function RecipeForm() {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const navigate = useNavigate();
   const { session } = useSession();
+  const { showToast } = useToast();
 
   const handleSave = async () => {
     if (!session) {
@@ -20,10 +22,13 @@ export default function RecipeForm() {
 
     try {
       const saved = await saveRecipe(recipe, session.user.id);
-      alert(saved ? 'Recipe saved!' : 'Recipe already saved.');
+      showToast(
+        saved ? 'Recipe saved!' : 'Recipe already saved.',
+        saved ? 'success' : 'error',
+      );
     } catch (error) {
       console.log(error);
-      alert('Could not save recipe. Please try again.');
+      showToast('Could not save recipe. Please try again.', 'error');
     }
   };
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import MiniRecipeCard from '@/components/MiniRecipeCard';
 import Nav from '@/components/Nav';
+import AddRecipeFab from '@/components/AddRecipeFab';
 import { useSession } from '@/context/sessionContext';
 import { fetchRecipes, deleteRecipe } from '@/lib/recipes';
 import type { Recipe } from '@/types/recipe';
@@ -33,6 +34,10 @@ export default function Collection() {
     recipe.title.toLowerCase().includes(query.trim().toLowerCase()),
   );
 
+  const handleAdded = (recipe: Recipe) => {
+    setRecipes((prev) => [recipe, ...prev]);
+  };
+
   return (
     <div className='container collection'>
       <Nav></Nav>
@@ -64,6 +69,7 @@ export default function Collection() {
           ))
         )}
       </div>
+      <AddRecipeFab onAdded={handleAdded} />
     </div>
   );
 }

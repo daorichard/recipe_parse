@@ -87,6 +87,17 @@ ul {
   padding: 24px;
 }
 
+@media (max-width: 480px) {
+  /* Swap the tile grid for a compact single-column list — see mini-card's
+     matching @media block in mini_recipe_card.css. */
+  .recipe-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 16px 12px;
+  }
+}
+
 .collection h1 {
   margin-left: 24px;
   margin-bottom: 10px;

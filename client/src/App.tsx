@@ -8,6 +8,7 @@ import './App.css';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
 import { SessionContext, useSession } from './context/sessionContext';
+import { ToastProvider } from './context/toastContext';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -47,26 +48,28 @@ function App() {
   return (
     // pass the session state into the SessionContext provider
     <SessionContext.Provider value={{ session, loading }}>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/auth' element={<Auth />} />
-        <Route
-          path='/Collection'
-          element={
-            <ProtectedRoute>
-              <Collection />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path='/recipe'
-          element={
-            <ProtectedRoute>
-              <Recipe />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
+      <ToastProvider>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/auth' element={<Auth />} />
+          <Route
+            path='/Collection'
+            element={
+              <ProtectedRoute>
+                <Collection />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/recipe'
+            element={
+              <ProtectedRoute>
+                <Recipe />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </ToastProvider>
     </SessionContext.Provider>
   );
 }
