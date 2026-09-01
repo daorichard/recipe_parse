@@ -1,6 +1,9 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
+const BROWSER_USER_AGENT =
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36";
+
 // ─── Normalizers ─────────────────────────────────────────────────────────────
 /* html returns messy text so this function will help convert entities into real characters
 - for example: weird parens, and whitespace
@@ -27,12 +30,15 @@ function cleanText(str) {
  */
 function parseDuration(iso) {
     if (!iso) return null;
-    const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?/);
+    // Some sites (e.g. Food Network) emit the full ISO 8601 form with a date
+    // part before the time part, e.g. P0Y0M0DT0H5M0.000S — skip past the
+    // date segment (Y/M/D) before matching the time segment (H/M/S).
+    const match = iso.match(/T(?:(\d+)H)?(?:(\d+)M)?/);
     if (!match) return iso;
     const [, h, m] = match;
     const parts = [];
-    if (h) parts.push(`${h} hr`);
-    if (m) parts.push(`${m} minutes`);
+    if (h && Number(h) > 0) parts.push(`${h} hr`);
+    if (m && Number(m) > 0) parts.push(`${m} minutes`);
     return parts.join(" ") || null;
 }
 
@@ -106,8 +112,9 @@ function extractFromJsonLd($) {
         if (recipe) return; // already found
         try {
             const json = JSON.parse($(el).html());
-            // Handle @graph arrays (e.g. Yoast SEO)
-            const nodes = json["@graph"] ? json["@graph"] : [json];
+            // Handle @graph wrappers (e.g. Yoast SEO) and bare top-level
+            // arrays (e.g. Food Network: [Recipe, BreadcrumbList])
+            const nodes = json["@graph"] ? json["@graph"] : Array.isArray(json) ? json : [json];
             const found = nodes.find(
                 (n) => n["@type"] === "Recipe" || n["@type"]?.includes?.("Recipe")
             );
@@ -204,22 +211,64 @@ function extractFromHtml($, url) {
 
 // ─── Main fetch + parse ───────────────────────────────────────────────────────
 
-async function parseRecipeFromUrl(url) {
+/**
+ * Plain HTTP fetch — fast, cheap, works for the vast majority of recipe sites.
+ */
+async function fetchHtmlWithAxios(url) {
     const { data: html } = await axios.get(url, {
         headers: {
             // Mimic a real browser — some sites block default axios UA
-            "User-Agent":
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
+            "User-Agent": BROWSER_USER_AGENT,
             Accept: "text/html",
         },
         timeout: 10_000,
     });
+    return html;
+}
 
-    const $ = cheerio.load(html);
+/**
+ * Real-browser fetch via Playwright — slow and heavy, so this is only reached
+ * when the plain HTTP request fails or comes back without a parsable recipe
+ * (e.g. sites like Food Network sitting behind Akamai bot protection, which
+ * blocks non-browser TLS fingerprints regardless of headers).
+ */
+async function fetchHtmlWithBrowser(url) {
+    // Lazy-required: keeps Playwright's cost (Chromium download, memory) out
+    // of the normal request path entirely unless this fallback actually runs.
+    const { chromium } = require("playwright");
 
-    const recipe =
+    const browser = await chromium.launch();
+    try {
+        const page = await browser.newPage({ userAgent: BROWSER_USER_AGENT });
+        await page.goto(url, { waitUntil: "domcontentloaded", timeout: 20_000 });
+        return await page.content();
+    } finally {
+        await browser.close();
+    }
+}
+
+function extractRecipe($, url) {
+    return (
         extractFromJsonLd($) ||   // fast + reliable
-        extractFromHtml($, url);  // fallback scrape
+        extractFromHtml($, url)   // fallback scrape
+    );
+}
+
+async function parseRecipeFromUrl(url) {
+    let recipe = null;
+
+    try {
+        const html = await fetchHtmlWithAxios(url);
+        recipe = extractRecipe(cheerio.load(html), url);
+    } catch {
+        // Swallow — a failed plain fetch just means we fall through to the
+        // browser-based attempt below.
+    }
+
+    if (!recipe) {
+        const html = await fetchHtmlWithBrowser(url);
+        recipe = extractRecipe(cheerio.load(html), url);
+    }
 
     if (!recipe) throw new Error("No recipe data found on this page.");
 
