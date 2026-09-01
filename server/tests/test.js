@@ -4,7 +4,8 @@ const fs = require("fs");
 
 const TEST_URLS = [
     'https://www.eatyourselfskinny.com/asian-ground-turkey-and-green-bean-stir-fry/',
-    'https://www.justonecookbook.com/tuna-mayo-onigiri/'
+    'https://www.justonecookbook.com/tuna-mayo-onigiri/',
+    'https://www.foodnetwork.com/recipes/rachael-ray/tomato-onion-and-cucumber-salad-recipe-1912368'
     // Add your own URLs here
 ];
 
