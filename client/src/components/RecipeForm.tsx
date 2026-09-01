@@ -18,7 +18,7 @@ export default function RecipeForm() {
       navigate('/auth'); // not logged in → go to auth
       return;
     }
-    if (!recipe) return;
+    if (!recipe || !recipe.title) return;
 
     try {
       const saved = await saveRecipe(recipe, session.user.id);
@@ -41,7 +41,7 @@ export default function RecipeForm() {
     try {
       e.preventDefault();
       if (!value || value.indexOf('.com') == -1) {
-        alert('Please enter a valid link');
+        showToast('Please enter a valid link', 'error');
         return;
       }
 
@@ -49,9 +49,22 @@ export default function RecipeForm() {
         `http://localhost:4000/parse?url=${encodeURIComponent(value)}`,
       );
       const data = await response.json();
+
+      // `{ err: '...' }`, not a Recipe — never let that reach the card/save flow.
+      if (!response.ok || !data || !data.title) {
+        setRecipe(null);
+        showToast(
+          'No recipe could be found at that link. Please try a different URL.',
+          'error',
+        );
+        return;
+      }
+
       setRecipe(data);
     } catch (error) {
       console.log(error);
+      setRecipe(null);
+      showToast('Could not reach the server. Please try again.', 'error');
     }
   };
 
